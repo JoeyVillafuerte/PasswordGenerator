@@ -79,6 +79,7 @@ public class PasswordGeneratorServer {
         }
     }
 
+    // Novel Idea 1 - Password Generation
     private static String generatePassword(int length, boolean includeUppercase, boolean includeLowercase, boolean includeNumbers, boolean includeSymbols) {
         // Building blocks of the password generation
         // Modified depending on the criteria the user defines
@@ -97,6 +98,7 @@ public class PasswordGeneratorServer {
         return password.toString();
     }
 
+    // Novel Idea 2 - Strength assessment
     private static String assessPasswordStrength(String password) {
         // Default to weak
         int strength = 1;
