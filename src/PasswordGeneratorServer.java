@@ -45,8 +45,9 @@ public class PasswordGeneratorServer {
                 String request;
                 while ((request = in.readLine()) != null) {
                     if (request.equalsIgnoreCase("exit")) {
-                        System.out.println("A user has disconnected."); // Notify when a user has disconnected
-                        break; // Exit the loop and terminate the client
+                        System.out.println("A user has disconnected.");
+                        // Exit the loop and terminate the client
+                        break;
                     } else if (request.equalsIgnoreCase("generate")) {
                         out.println("Type 'generate' to request a password (or 'exit' to quit).");
                     } else if (request.startsWith("generate")) {
@@ -103,7 +104,7 @@ public class PasswordGeneratorServer {
             int strength = 1;
 
             // Sorta arbitrary number to define password strength
-            // Has to be minimum 4 to have one each of uppercase, lowercase, number, symbol
+            // Has to be a minimum of 4 to have one each of uppercase, lowercase, number, symbol
             if (password.length() >= 8) {
                 strength++;
             }
