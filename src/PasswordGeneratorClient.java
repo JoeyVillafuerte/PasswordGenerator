@@ -23,15 +23,11 @@ public class PasswordGeneratorClient {
                 System.out.print("Type 'generate' to request a password (or 'exit' to quit): ");
                 userInput = stdIn.readLine();
 
-                // Exit the loop and terminate the client
+                // Notify the server about the user disconnecting
                 if (userInput.equalsIgnoreCase("exit")) {
+                    out.println("exit");
                     break;
-                }
-                // Asking the user what criteria they want for the password
-                // Inputs ask for length of password, case, numbers, and symbols, and the y/n condition ignores cases as well
-
-                // By typing Y instead of yes, i save infinite time with all the mistakes i'm making and rerunning the code
-                else if (userInput.equalsIgnoreCase("generate")) {
+                } else if (userInput.equalsIgnoreCase("generate")) {
                     System.out.println("\nPlease fill in the following information to get your new password.");
                     System.out.print("Password Length (please enter a number in digits): ");
                     int length = Integer.parseInt(stdIn.readLine());
@@ -41,7 +37,7 @@ public class PasswordGeneratorClient {
                     boolean includeLowercase = stdIn.readLine().equalsIgnoreCase("Y");
                     System.out.print("Include Numbers (Y/N): ");
                     boolean includeNumbers = stdIn.readLine().equalsIgnoreCase("Y");
-                    System.out.print("Include Symbols (Y/N)): ");
+                    System.out.print("Include Symbols (Y/N): ");
                     boolean includeSymbols = stdIn.readLine().equalsIgnoreCase("Y");
 
                     // Send the user's criteria to the server
@@ -52,13 +48,14 @@ public class PasswordGeneratorClient {
                     String passwordStrengthLabel = in.readLine();
 
                     // Outputs the new password and the calculated strength from the server
-                    System.out.println("\nGenerated Password: " + generatedPassword);
-                    System.out.println("Your generated password strength is: " + passwordStrengthLabel);
+                    System.out.println("Generated Password: " + generatedPassword);
+                    System.out.println("Your generated password strength is: " + passwordStrengthLabel + "\n");
                 } else {
                     System.out.println("Unknown command. Type 'generate' to request a password or 'exit' to quit.");
                 }
             }
 
+            // Close the client socket
             socket.close();
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
