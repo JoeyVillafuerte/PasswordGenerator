@@ -45,7 +45,7 @@ public class PasswordGeneratorServer {
                 String request;
                 while ((request = in.readLine()) != null) {
                     if (request.equalsIgnoreCase("exit")) {
-                        System.out.println("A user has disconnected.");
+                        System.out.println("A user has disconnected."); // Notify when a user has disconnected
                         break; // Exit the loop and terminate the client
                     } else if (request.equalsIgnoreCase("generate")) {
                         out.println("Type 'generate' to request a password (or 'exit' to quit).");
@@ -77,63 +77,63 @@ public class PasswordGeneratorServer {
                 e.printStackTrace();
             }
         }
-    }
 
-    // Novel Idea 1 - Password Generation
-    private static String generatePassword(int length, boolean includeUppercase, boolean includeLowercase, boolean includeNumbers, boolean includeSymbols) {
-        // Building blocks of the password generation
-        // Modified depending on the criteria the user defines
-        String charset = "";
-        if (includeUppercase) charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        if (includeLowercase) charset += "abcdefghijklmnopqrstuvwxyz";
-        if (includeNumbers) charset += "0123456789";
-        if (includeSymbols) charset += "!@#$%^&*()_-+=<>?";
+        // Novel Idea 1 - Password Generation
+        private static String generatePassword(int length, boolean includeUppercase, boolean includeLowercase, boolean includeNumbers, boolean includeSymbols) {
+            // Building blocks of the password generation
+            // Modified depending on the criteria the user defines
+            String charset = "";
+            if (includeUppercase) charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            if (includeLowercase) charset += "abcdefghijklmnopqrstuvwxyz";
+            if (includeNumbers) charset += "0123456789";
+            if (includeSymbols) charset += "!@#$%^&*()_-+=<>?";
 
-        StringBuilder password = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            int index = secureRandom.nextInt(charset.length());
-            password.append(charset.charAt(index));
+            StringBuilder password = new StringBuilder();
+            for (int i = 0; i < length; i++) {
+                int index = secureRandom.nextInt(charset.length());
+                password.append(charset.charAt(index));
+            }
+
+            return password.toString();
         }
 
-        return password.toString();
-    }
+        // Novel Idea 2 - Strength assessment
+        private static String assessPasswordStrength(String password) {
+            // Default to weak
+            int strength = 1;
 
-    // Novel Idea 2 - Strength assessment
-    private static String assessPasswordStrength(String password) {
-        // Default to weak
-        int strength = 1;
+            // Sorta arbitrary number to define password strength
+            // Has to be minimum 4 to have one each of uppercase, lowercase, number, symbol
+            if (password.length() >= 8) {
+                strength++;
+            }
+            // Checks for uppercase letters
+            if (password.matches(".*[A-Z].*")) {
+                strength++;
+            }
 
-        // Sorta arbitrary number to define password strength
-        // Has to be minimum 4 to have one each of uppercase, lowercase, number, symbol
-        if (password.length() >= 8) {
-            strength++;
-        }
-        // Checks for uppercase letters
-        if (password.matches(".*[A-Z].*")) {
-            strength++;
-        }
+            // Checks for lowercase letters
+            if (password.matches(".*[a-z].*")) {
+                strength++;
+            }
 
-        // Checks for lowercase letters
-        if (password.matches(".*[a-z].*")) {
-            strength++;
-        }
+            // Checks for digits
+            if (password.matches(".*\\d.*")) {
+                strength++;
+            }
 
-        // Checks for digits
-        if (password.matches(".*\\d.*")) {
-            strength++;
-        }
+            // Checks for symbols
+            if (password.matches(".*[^A-Za-z0-9].*")) {
+                strength++;
+            }
 
-        // Checks for symbols
-        if (password.matches(".*[^A-Za-z0-9].*")) {
-            strength++;
-        }
-
-        if (strength <= 2) {
-            return "Weak";
-        } else if (strength <= 4) {
-            return "Medium";
-        } else {
-            return "Strong";
+            if (strength <= 2) {
+                return "Weak";
+            } else if (strength <= 4) {
+                return "Medium";
+            } else {
+                return "Strong";
+            }
         }
     }
 }
